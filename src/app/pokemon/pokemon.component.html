@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-between">
+    <h2 class="mb-4">Listado de Pokemons</h2>
+    <h5 class="align-items-center mt-1"> Total : {{totalItems}}</h5>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 justify-space-between " *ngFor="let pokemon of pokemon_list | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }">
+        <div style="align-items: baseline;">
+            <div class="card mb-3 w-100">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex align-items-center bg-success">
+                        <img src="{{pokemon.picture}}" class="img-fluid rounded-start w-100" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body bg-light">
+                            <h5 class="card-title ">
+                                Nombre: {{pokemon.name}}
+                            </h5>
+                            <hr>
+                            <h5>Habilidades:</h5>
+                            <div *ngFor="let ability of pokemon.abilities;let indexOfelement=index;">
+                                <p>{{"Habilidad - " + (indexOfelement + 1) + " " + ability.ability.name}}</p>
+                            </div>
+
+                            <button type="button" class="btn btn-primary" (click)="openModal(modal_add_favorite, pokemon)">Create template modal</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pagination-controls (pageChange)="get_pokemon_list((page = $event))"></pagination-controls>
+
+<ng-template #modal_add_favorite>
+    <div class="card">
+        <h3>Ingresa el alias a guardar como favorito</h3>
+        <div class="input-group-prepend">
+            <input type="text" [(ngModel)]="alias" class="form-control mb-3 mt-3 w-80" id="basic-url" placeholder="Ingresa el alias de tu pokemon" aria-describedby="basic-addon3" required>
+        </div>
+        <button class=" w-100 btn-lg mb-3 mt-3" type="button " class="btn btn-primary " (click)="save_favorites()">Guardar</button>
+        <button class="w-100 btn-lg mb-3 " type="button " class="btn btn-default bg-success " (click)="decline()">Cancelar</button>
+    </div>
+
+</ng-template>
